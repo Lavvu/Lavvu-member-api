@@ -18,6 +18,159 @@ consumes:
 produces:
   - application/json
 paths:
+  /api/profile:
+    x-swagger-router-controller: profile
+    get:
+      description: returns a list of profiles
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/ProfileListRespons"
+  /api/profile/{id}:
+    x-swagger-router-controller: profile
+    get:
+      description: returns a specific profile
+      parameters:
+        - name: id
+          in: path
+          description: id of profile
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/ProfileResponse"
+  
+  /api/api-key:
+    x-swagger-router-controller: apiKey
+    get:
+      description: get a list of apiKey objects that belongs to request user
+        The apiKey it self will not be passed.
+      responses:
+        200:
+          description: success
+          schema:
+            $ref: "#/definitions/ApiKeyResponse"
+        403:
+          description: forbidden user is not authenticated
+  
+  /api/api-key/{id}:
+    x-swagger-router-controller: apiKey
+    delete:
+      description: delete an apiKey that belongs to request user.
+      parameters:
+        - name: id
+          in: path
+          description: id of apiKey to delete
+          required: true
+          type: integer
+      responses:
+        200:
+          description: success
+        403:
+          description: forbidden request user can only delete keys that belongs
+            to the user.
+  /api/account-type:
+    x-swagger-router-controller: accountType
+    get:
+      description: gets a list of account types
+      responses:
+        200:
+          description: success
+          schema:
+            $ref: "#/definitions/AccountTypeList"
+    
+    post:
+      description: creates a new account type only admins should be able to
+      parameters:
+        - name: name
+          in: formData
+          required: true
+          type: string
+          description: name of account type
+      responses:
+        201:
+          description: success
+        403:
+          description: forbidden
+    
+  /api/account-type/{id}:
+    x-swagger-router-controller: accountType
+    patch:
+      description: update an existing account type
+      parameters:
+        - name: id
+          in: path
+          description: id of account type to update
+          required: true
+          type: integer
+        - name: name
+          in: formData
+          required: true
+          description: name of account type
+          type: string
+      responses:
+        200:
+          description: success
+  
+  /api/account-type/{id}/user:
+    x-swagger-router-controller: accountTypeUser
+    get:
+      description: gets a list of accountTypes that belongs to the user
+      parameters:
+        - name: id
+          in: path
+          description: id of a user
+          required: true
+          type: integer
+      responses:
+        200:
+          description: success
+          schema:
+            $ref: "#/definitions/AccountTypeUserList"
+          
+  
+  /api/account-type-user/{user-id}/{accountType-id}:
+    x-swagger-router-controller: accountTypeUser
+    post:
+      description: admin adds user to account type
+      parameters:
+        - name: user-id
+          in: path
+          description: user id
+          type: integer
+          required: true
+        - name: accountType-id
+          in: path
+          description: account type id
+          type: integer
+          required: true
+      responses:
+        201:
+          description: success
+        403:
+          description: forbidden
+    delete:
+      description: admin removes user from account type
+      parameters:
+        - name: user-id
+          in: path
+          description: user id
+          type: integer
+          required: true
+        - name: accountType-id
+          in: path
+          description: account type id
+          type: integer
+          required: true
+      responses:
+        201:
+          description: success
+        403:
+          description: forbidden
+  
   /hello:
     # binds a127 app logic to a route
     x-swagger-router-controller: hello_world
@@ -46,6 +199,89 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
+  ProfileListRespons:
+    required:
+      - profiles
+    properties:
+      profiles:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            fullName:
+              type: string
+            userName:
+              type: string
+            email:
+              type: string
+            profileText:
+              type: string
+            dateJoined:
+              type: string
+              format: date-time
+  
+  ProfileResponse:
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+      fullName:
+        type: string
+      userName:
+        type: string
+      email:
+        type: string
+      profileText:
+        type: string
+      dateJoined:
+        type: string
+        format: date-time
+  
+  ApiKeyResponse:
+    required:
+      - apiKeys
+    properties:
+      apiKeys:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            lastActive:
+              type: string
+            userAgent:
+              type: string
+            ip:
+              type: string
+
+  AccountTypeList:
+    required:
+      - accountTypes
+    properties:
+      accountTypes:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+  
+  AccountTypeUserList:
+    required:
+      - accountTypes
+    properties:
+      accountTypes:
+        type: array
+        items:
+          type: integer
+          
+        
   HelloWorldResponse:
     required:
       - message

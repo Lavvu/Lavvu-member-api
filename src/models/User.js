@@ -5,7 +5,7 @@ import db from '../db/db';
 autoIncrement.initialize(db);
 
 const userSchema = mongoose.Schema({
-	userName: { type: String, required: true, unique: true },
+	userName: { type: String, unique: true },
 	fullName: { type: String },
 	profileText: { type: String },
 	email: { type: String, required: true, unique: true },
