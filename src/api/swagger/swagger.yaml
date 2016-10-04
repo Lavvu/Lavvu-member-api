@@ -27,6 +27,28 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/ProfileListRespons"
+    
+    patch:
+      description: request user update profile
+      parameters:
+        - name: fullName
+          in: formData
+          type: string
+          description: name of user
+        - name: profileText
+          in: formData
+          type: string
+          description: profile text
+        - name: email
+          in: formData
+          type: string
+          description: email
+      responses:
+        200:
+          description: success
+        403:
+          description: forbidden
+    
   /api/profile/{id}:
     x-swagger-router-controller: profile
     get:
@@ -42,7 +64,7 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/ProfileResponse"
-  
+
   /api/api-key:
     x-swagger-router-controller: apiKey
     get:
@@ -72,6 +94,7 @@ paths:
         403:
           description: forbidden request user can only delete keys that belongs
             to the user.
+            
   /api/account-type:
     x-swagger-router-controller: accountType
     get:
@@ -131,7 +154,6 @@ paths:
           schema:
             $ref: "#/definitions/AccountTypeUserList"
           
-  
   /api/account-type-user/{user-id}/{accountType-id}:
     x-swagger-router-controller: accountTypeUser
     post:
