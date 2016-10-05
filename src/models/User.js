@@ -17,4 +17,4 @@ const userSchema = mongoose.Schema({
 
 userSchema.plugin(autoIncrement.plugin, { model: 'User', field: 'id' });
 
-export default const db.model('User', userSchema);
+export default db.model('User', userSchema);

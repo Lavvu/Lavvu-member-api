@@ -12,4 +12,4 @@ const accountTypeSchema = mongoose.Schema({
 
 accountTypeSchema.plugin(autoIncrement.plugin, { model: 'AccountType', field: 'id' });
 
-export default const db.model('AccountType', accountTypeSchema);
+export default db.model('AccountType', accountTypeSchema);

@@ -16,4 +16,4 @@ const apiKeySchema = mongoose.Schema({
 
 apiKeySchema.plugin(autoIncrement.plugin, { model: 'ApiKey', field: 'id' });
 
-export default const db.model('ApiKey', apiKeySchema);
+export default db.model('ApiKey', apiKeySchema);

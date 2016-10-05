@@ -1,7 +1,8 @@
 import SwaggerExpress from 'swagger-express-mw';
 import express from 'express';
+import Facebook from './auth/facebook';
 
-var server = express();
+let server = express();
 
 let config = {
 	appRoot: __dirname
@@ -19,5 +20,6 @@ SwaggerExpress.create(config, (err, swaggerExpress) => {
 		console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
 	}
 });
+new Facebook(server, '/auth/facebook', '/auth/facebook/callback');
 
 export { server };

@@ -9,4 +9,4 @@ const accountTypeUserSchema = mongoose.Schema({
 //unique together 
 accountTypeUserSchema.index({ user: 1, accountType: 1 }, { unique: true });
 
-export default const db.model('AccountTypeUser', accountTypeUserSchema);
+export default db.model('AccountTypeUser', accountTypeUserSchema);
