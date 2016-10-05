@@ -30,11 +30,12 @@ export default class Facebook {
 			clientSecret: clientSecret || process.env.FACEBOOK_APP_SECRET,
 			callbackURL: callbackURL
 		};
-		passport.use(new Strategy(options, (...params) => authenticate.apply(...params)));
+		passport.use(new Strategy(options, (...params) => this._authenticate.apply(...params)));
 		this._setRoutes(server, URL, callbackURL, loginURL);
 	}
 
-	authenticate(accessToken, refreshToken, profile, done) {
+	_authenticate(accessToken, refreshToken, profile, done) {
+		console.log(profile);
 		User.find({
 			'providerUserId': profile.id
 		}, (err, user) => {
