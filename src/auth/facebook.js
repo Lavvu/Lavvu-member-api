@@ -12,7 +12,7 @@ import User from '../models/User';
  *		
  *		let server = express();
  *		
- *		Facebook(server, '/auth/facebook', '/auth/facebook/callback');
+ *		new Facebook(server, '/auth/facebook', '/auth/facebook/callback');
  * 
  * @constructor
  * @param {object} server the express server
@@ -30,7 +30,7 @@ export default class Facebook {
 			clientSecret: clientSecret || process.env.FACEBOOK_APP_SECRET,
 			callbackURL: callbackURL
 		};
-		passport.use(new Strategy(options, (...params) => this._authenticate.apply(...params)));
+		passport.use(new Strategy(options, this._authenticate));
 		this._setRoutes(server, URL, callbackURL, loginURL);
 	}
 
